@@ -1,13 +1,14 @@
-import type { Config } from "tailwindcss"
+const defaultTheme = require("tailwindcss/defaultTheme");
+import type { Config } from "tailwindcss";
 
 const config = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
-	],
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+  ],
   prefix: "",
   theme: {
     container: {
@@ -18,7 +19,27 @@ const config = {
       },
     },
     extend: {
+      screens: {
+        mobile: "375px",
+        desktop: "1440px",
+      },
+      fontFamily: {
+        custom: ['"Space Mono"', ...defaultTheme.fontFamily.mono],
+      },
+      fontSize: {
+        "form-input": "24px",
+      },
+      fontWeight: {
+        bold: "700",
+      },
       colors: {
+        "strong-cyan": "hsl(172, 67%, 45%)",
+        "very-dark-cyan": "hsl(183, 100%, 15%)",
+        "dark-grayish-cyan": "hsl(186, 14%, 43%)",
+        "grayish-cyan": "hsl(184, 14%, 56%)",
+        "light-grayish-cyan": "hsl(185, 41%, 84%)",
+        "very-light-grayish-cyan": "hsl(189, 41%, 97%)",
+        white: "hsl(0, 0%, 100%)",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -75,6 +96,6 @@ const config = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-} satisfies Config
+} satisfies Config;
 
-export default config
+export default config;
