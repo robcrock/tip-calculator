@@ -7,7 +7,7 @@ type TProps = {
 
 export const Attribution = ({ name, link }: TProps) => {
   return (
-    <div className="attribution decoration-none w-full font-light text-slate-400">
+    <div className="attribution decoration-none font-light text-slate-400">
       <span>Challenge by </span>
       <Link className="text-white" href={"https://www.frontendmentor.io/"}>
         <span className="font-bold text-slate-400">Frontend Mentor</span>
