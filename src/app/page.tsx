@@ -16,10 +16,11 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { number, z } from "zod";
 import { cn } from "@/lib/utils";
+import { ButtonGroup } from "@/components/button-group";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const formSchema = z.object({
   bill: z.string(),
@@ -36,12 +37,7 @@ const formatter = new Intl.NumberFormat("en-US", {
 export default function Home() {
   const [bill, setBill] = useState(0);
   const [tipPercent, setTipPercent] = useState(0);
-  const [isCustom, setIsCustom] = useState(false);
   const [numberOfPeople, setNumberOfPeople] = useState(0);
-
-  console.log(bill);
-  console.log(tipPercent);
-  console.log(numberOfPeople);
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -53,31 +49,15 @@ export default function Home() {
     },
   });
 
-  const handleChangeCustomTipPercent = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = parseFloat(e.target.value); // Parse the input value as a float
-    if (!isNaN(value)) {
-      setIsCustom(true);
-      setTipPercent(value);
-    } else {
-      setIsCustom(false);
-      setTipPercent(value);
-    }
-  };
-
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log("fired");
+    console.log(values);
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     setBill(parseFloat(values.bill));
-    if (isCustom) {
-      setIsCustom(true);
-      setTipPercent(tipPercent);
-    } else {
-      setIsCustom(false);
-      setTipPercent(parseFloat(values["tip-percent"]));
-    }
+    setTipPercent(parseFloat(values["tip-percent"]));
     setNumberOfPeople(parseFloat(values["number-of-people"]));
-    console.log(values);
   }
 
   return (
@@ -108,118 +88,7 @@ export default function Home() {
                   )}
                 />
                 {/* -- Tip % Radio Group -- */}
-                <FormField
-                  control={form.control}
-                  name="tip-percent"
-                  render={({ field }) => (
-                    <FormItem className="space-y-2">
-                      <FormLabel className="text-[16px] font-bold">
-                        Select Tip %
-                      </FormLabel>
-                      <FormControl>
-                        <RadioGroup
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                          className="flex flex-wrap gap-2"
-                        >
-                          <FormItem className="relative h-[40px] w-[117px] overflow-hidden rounded-[5px]">
-                            <FormControl className="rounded-[5px] bg-very-dark-cyan">
-                              <RadioGroupItem value="0.05" id="five-percent" />
-                            </FormControl>
-                            <FormLabel
-                              className={cn(
-                                "pointer-events-none absolute left-1/2 top-1/2 m-0 -translate-x-1/2 -translate-y-[22px] transform text-2xl font-bold",
-                                field.value === "0.05"
-                                  ? "text-very-dark-cyan"
-                                  : "text-white",
-                              )}
-                            >
-                              5%
-                            </FormLabel>
-                          </FormItem>
-                          <FormItem className="relative h-[40px] w-[117px] overflow-hidden rounded-[5px]">
-                            <FormControl className="rounded-[5px] bg-very-dark-cyan">
-                              <RadioGroupItem value="0.1" id="ten-percent" />
-                            </FormControl>
-                            <FormLabel
-                              className={cn(
-                                "pointer-events-none absolute left-1/2 top-1/2 m-0 -translate-x-1/2 -translate-y-[22px] transform text-2xl font-bold",
-                                field.value === "0.1"
-                                  ? "text-very-dark-cyan"
-                                  : "text-white",
-                              )}
-                            >
-                              10%
-                            </FormLabel>
-                          </FormItem>
-                          <FormItem className="relative h-[40px] w-[117px] overflow-hidden rounded-[5px]">
-                            <FormControl className="rounded-[5px] bg-very-dark-cyan">
-                              <RadioGroupItem
-                                value="0.15"
-                                id="fifteen-percent"
-                              />
-                            </FormControl>
-                            <FormLabel
-                              className={cn(
-                                "pointer-events-none absolute left-1/2 top-1/2 m-0 -translate-x-1/2 -translate-y-[22px] transform text-2xl font-bold",
-                                field.value === "0.15"
-                                  ? "text-very-dark-cyan"
-                                  : "text-white",
-                              )}
-                            >
-                              15%
-                            </FormLabel>
-                          </FormItem>
-                          <FormItem className="relative h-[40px] w-[117px] overflow-hidden rounded-[5px]">
-                            <FormControl className="rounded-[5px] bg-very-dark-cyan">
-                              <RadioGroupItem
-                                value="0.25"
-                                id="twenty-five-percent"
-                              />
-                            </FormControl>
-                            <FormLabel
-                              className={cn(
-                                "pointer-events-none absolute left-1/2 top-1/2 m-0 -translate-x-1/2 -translate-y-[22px] transform text-2xl font-bold",
-                                field.value === "0.25"
-                                  ? "text-very-dark-cyan"
-                                  : "text-white",
-                              )}
-                            >
-                              25%
-                            </FormLabel>
-                          </FormItem>
-                          <FormItem className="relative h-[40px] w-[117px] overflow-hidden rounded-[5px]">
-                            <FormControl className="rounded-[5px] bg-very-dark-cyan">
-                              <RadioGroupItem value="0.5" id="fifty-percent" />
-                            </FormControl>
-                            <FormLabel
-                              className={cn(
-                                "pointer-events-none absolute left-1/2 top-1/2 m-0 -translate-x-1/2 -translate-y-[22px] transform text-2xl font-bold",
-                                field.value === "0.5"
-                                  ? "text-very-dark-cyan"
-                                  : "text-white",
-                              )}
-                            >
-                              50%
-                            </FormLabel>
-                          </FormItem>
-                          <FormItem className="relative h-[40px] w-[117px] overflow-hidden">
-                            <FormControl className="rounded-[5px] bg-very-light-grayish-cyan text-dark-grayish-cyan">
-                              <Input
-                                type="number"
-                                step="0.01"
-                                placeholder="CUSTOM"
-                                onChange={(e) =>
-                                  handleChangeCustomTipPercent(e)
-                                }
-                              />
-                            </FormControl>
-                          </FormItem>
-                        </RadioGroup>
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
+                <ButtonGroup />
                 {/* -- Number of People Input -- */}
                 <FormField
                   control={form.control}
