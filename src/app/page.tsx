@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { ChangeEvent, ChangeEventHandler, useState } from "react";
+import { ChangeEvent, ChangeEventHandler, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -35,19 +35,25 @@ const formatter = new Intl.NumberFormat("en-US", {
 });
 
 export default function Home() {
-  const [bill, setBill] = useState(0);
-  const [tipPercent, setTipPercent] = useState(0);
-  const [numberOfPeople, setNumberOfPeople] = useState(0);
+  // const [bill, setBill] = useState(0);
+  // const [tipPercent, setTipPercent] = useState(0);
+  // const [numberOfPeople, setNumberOfPeople] = useState(0);
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       bill: "0",
-      "tip-percent": "0.5",
+      "tip-percent": "0.05",
       "number-of-people": "1",
     },
   });
+
+  const {
+    bill,
+    "tip-percent": tipPercent,
+    "number-of-people": numberOfPeople,
+  } = form.watch();
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -55,9 +61,11 @@ export default function Home() {
     console.log(values);
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    setBill(parseFloat(values.bill));
-    setTipPercent(parseFloat(values["tip-percent"]));
-    setNumberOfPeople(parseFloat(values["number-of-people"]));
+    // setBill(parseFloat(values.bill));
+    // setTipPercent(parseFloat(values["tip-percent"]));
+    // setNumberOfPeople(parseFloat(values["number-of-people"]));
+    form.reset({});
+    // setIsSubmitSuccessful(true);
   }
 
   return (
@@ -81,7 +89,11 @@ export default function Home() {
                         Bill
                       </FormLabel>
                       <FormControl className="h-12">
-                        <Input placeholder="shadcn" {...field} />
+                        <Input
+                          placeholder="shadcn"
+                          {...form.register("bill")}
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -123,7 +135,8 @@ export default function Home() {
                         </div>
                         <div className="text-right text-5xl text-strong-cyan">
                           {formatter.format(
-                            (bill * tipPercent) / numberOfPeople,
+                            (parseFloat(bill) * parseFloat(tipPercent)) /
+                              parseFloat(numberOfPeople),
                           ) || formatter.format(0)}
                         </div>
                       </div>
@@ -137,7 +150,9 @@ export default function Home() {
                         </div>
                         <div className="text-right text-5xl text-strong-cyan">
                           {formatter.format(
-                            (bill * tipPercent + bill) / numberOfPeople,
+                            (parseFloat(bill) * parseFloat(tipPercent) +
+                              parseFloat(bill)) /
+                              parseFloat(numberOfPeople),
                           )}
                         </div>
                       </div>
