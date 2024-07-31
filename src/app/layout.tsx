@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 const fontSans = FontSans({
   subsets: ["latin"],
   weight: ["400", "700"], // Available weights for Space Mono
-  variable: "--font-space-mono",
+  variable: "--font-sans",
 });
 
 export const metadata: Metadata = {
@@ -25,7 +25,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          "font-custom min-h-screen bg-background antialiased",
+          "min-h-screen bg-background font-sans antialiased",
           fontSans.variable,
         )}
       >

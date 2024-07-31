@@ -1,5 +1,4 @@
-const defaultTheme = require("tailwindcss/defaultTheme");
-import type { Config } from "tailwindcss";
+const { fontFamily } = require("tailwindcss/defaultTheme");
 
 const config = {
   darkMode: ["class"],
@@ -24,7 +23,7 @@ const config = {
         desktop: "1440px",
       },
       fontFamily: {
-        custom: ['"Space Mono"', ...defaultTheme.fontFamily.mono],
+        sans: ["var(--font-sans)", ...fontFamily.sans],
       },
       fontSize: {
         "form-input": "24px",
@@ -96,6 +95,6 @@ const config = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-} satisfies Config;
+};
 
 export default config;

@@ -38,27 +38,32 @@ export const ButtonGroup = () => {
   };
 
   return (
-    <div className="grid grid-cols-3 gap-[13px]">
-      {buttonProps.map(({ value, label }) => (
-        <Button
+    <section className="flex flex-col gap-4">
+      <div className="font-bold">Select Tip %</div>
+      <div className="grid grid-cols-3 gap-[13px]">
+        {buttonProps.map(({ value, label }) => (
+          <Button
+            className="h-12"
+            {...register("tip-percent")} // Register input for react-hook-form
+            key={label}
+            type="button" // Ensure this is a button to prevent form submission
+            onClick={() => handleButtonClick(value)}
+          >
+            {label}
+          </Button>
+        ))}
+        <Input
+          className="h-12"
+          type="number"
+          step="0.01"
           {...register("tip-percent")} // Register input for react-hook-form
-          key={label}
-          type="button" // Ensure this is a button to prevent form submission
-          onClick={() => handleButtonClick(value)}
-        >
-          {label}
-        </Button>
-      ))}
-      <Input
-        type="number"
-        step="0.01"
-        {...register("tip-percent")} // Register input for react-hook-form
-        value={inputValue}
-        onChange={handleInputChange} // Custom handler for input changes
-        onClick={handleInputClick} // Custom handler for input changes
-        placeholder="CUSTOM"
-        ref={tipPercentRef}
-      />
-    </div>
+          value={inputValue}
+          onChange={handleInputChange} // Custom handler for input changes
+          onClick={handleInputClick} // Custom handler for input changes
+          placeholder="CUSTOM"
+          ref={tipPercentRef}
+        />
+      </div>
+    </section>
   );
 };

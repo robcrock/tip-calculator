@@ -21,6 +21,8 @@ import { number, z } from "zod";
 import { cn } from "@/lib/utils";
 import { ButtonGroup } from "@/components/button-group";
 import { zodResolver } from "@hookform/resolvers/zod";
+import DollarSign from "@/components/icons/dollar-sign";
+import Person from "@/components/icons/person";
 
 const formSchema = z.object({
   bill: z.string(),
@@ -90,6 +92,7 @@ export default function Home() {
                       </FormLabel>
                       <FormControl className="h-12">
                         <Input
+                          startIcon={DollarSign}
                           placeholder="shadcn"
                           {...form.register("bill")}
                           {...field}
@@ -106,12 +109,16 @@ export default function Home() {
                   control={form.control}
                   name="number-of-people"
                   render={({ field }) => (
-                    <FormItem className="h-12 space-y-2">
+                    <FormItem className="space-y-2">
                       <FormLabel className="text-[16px] font-bold">
                         Number of People
                       </FormLabel>
                       <FormControl className="h-12">
-                        <Input placeholder="shadcn" {...field} />
+                        <Input
+                          startIcon={Person}
+                          placeholder="shadcn"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -122,18 +129,18 @@ export default function Home() {
                 <Card className="h-full w-full rounded-[15px] bg-very-dark-cyan">
                   <CardContent className="flex h-full flex-col justify-between p-10">
                     {/* -- Results */}
-                    <div className="flex flex-col gap-10">
+                    <div className="flex flex-col gap-[25px]">
                       {/* tip per person */}
-                      <div className="flex justify-between">
+                      <div className="flex h-[71px] items-center justify-between">
                         <div className="flex flex-col font-bold">
                           <div className="text-[16px] text-white">
-                            Tip amount
+                            Tip Amount
                           </div>
                           <div className="text-[13px] text-grayish-cyan">
-                            / per person
+                            / person
                           </div>
                         </div>
-                        <div className="text-right text-5xl text-strong-cyan">
+                        <div className="text-right text-5xl font-bold text-strong-cyan">
                           {formatter.format(
                             (parseFloat(bill) * parseFloat(tipPercent)) /
                               parseFloat(numberOfPeople),
@@ -141,14 +148,14 @@ export default function Home() {
                         </div>
                       </div>
                       {/* total per person */}
-                      <div className="flex justify-between">
+                      <div className="flex h-[71px] items-center justify-between">
                         <div className="flex flex-col font-bold">
                           <div className="text-[16px] text-white">Total</div>
                           <div className="text-[13px] text-grayish-cyan">
-                            / per person
+                            / person
                           </div>
                         </div>
-                        <div className="text-right text-5xl text-strong-cyan">
+                        <div className="text-right text-5xl font-bold text-strong-cyan">
                           {formatter.format(
                             (parseFloat(bill) * parseFloat(tipPercent) +
                               parseFloat(bill)) /
