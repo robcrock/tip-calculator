@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
-  startIcon: any;
+  startIcon?: any;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
@@ -16,7 +16,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         <input
           type={type}
           className={cn(
-            "peer flex h-10 w-full rounded-md border border-input bg-background px-4 py-2 text-right text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50",
+            "peer flex h-10 w-full rounded-md bg-very-light-grayish-cyan px-4 py-2 text-right text-sm text-very-dark-cyan ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-strong-cyan focus-visible:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50",
             startIcon ? "pl-8" : "",
             className,
           )}

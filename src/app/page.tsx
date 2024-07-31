@@ -23,6 +23,7 @@ import { ButtonGroup } from "@/components/button-group";
 import { zodResolver } from "@hookform/resolvers/zod";
 import DollarSign from "@/components/icons/dollar-sign";
 import Person from "@/components/icons/person";
+import Logo from "@/components/icons/logo";
 
 const formSchema = z.object({
   bill: z.string(),
@@ -71,29 +72,35 @@ export default function Home() {
   }
 
   return (
-    <main className="flex h-full min-h-screen flex-col items-center justify-between bg-light-grayish-cyan pb-8 pt-24">
+    <main className="flex h-full min-h-screen flex-col items-center bg-light-grayish-cyan pb-8">
+      <div className="mb-[60px] mt-[104px]">
+        <Logo />
+      </div>
       {/* - Card */}
-      <Card className="h-[481px] w-[920px] rounded-[25px]">
+      <Card className="mb-6 h-[481px] w-[920px] rounded-[25px]">
         <CardContent className="h-full w-full p-0">
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
               className="grid h-full w-full grid-cols-2"
             >
-              <section className="mx-[48px] mb-[48px] mt-[45px] flex flex-col gap-10">
+              <section className="mb-[48px] ml-[48px] mr-2 mt-[45px] flex flex-col gap-10">
                 {/* -- Bill Input -- */}
                 <FormField
                   control={form.control}
                   name="bill"
                   render={({ field }) => (
                     <FormItem className="space-y-2">
-                      <FormLabel className="text-[16px] font-bold">
+                      <FormLabel className="text-[16px] font-bold text-dark-grayish-cyan">
                         Bill
                       </FormLabel>
-                      <FormControl className="h-12">
+                      <FormControl className="h-12 text-2xl font-bold">
                         <Input
+                          className="pr-2"
+                          type="number"
+                          step="0.01"
                           startIcon={DollarSign}
-                          placeholder="shadcn"
+                          placeholder="Bill Amount"
                           {...form.register("bill")}
                           {...field}
                         />
@@ -110,13 +117,15 @@ export default function Home() {
                   name="number-of-people"
                   render={({ field }) => (
                     <FormItem className="space-y-2">
-                      <FormLabel className="text-[16px] font-bold">
+                      <FormLabel className="text-[16px] font-bold text-dark-grayish-cyan">
                         Number of People
                       </FormLabel>
-                      <FormControl className="h-12">
+                      <FormControl className="h-12 text-2xl font-bold">
                         <Input
+                          className="pr-2"
+                          type="number"
                           startIcon={Person}
-                          placeholder="shadcn"
+                          placeholder="People in Your Party"
                           {...field}
                         />
                       </FormControl>
@@ -165,7 +174,7 @@ export default function Home() {
                       </div>
                     </div>
                     <Button
-                      className="h-12 bg-strong-cyan text-xl font-bold uppercase text-very-dark-cyan"
+                      className="h-12 bg-strong-cyan text-xl font-bold uppercase text-very-dark-cyan hover:bg-light-grayish-cyan hover:text-very-dark-cyan"
                       type="submit"
                     >
                       reset
