@@ -8,7 +8,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { FormSchema } from "@/app/page";
+import { FormSchema } from "@/types/form-schema";
 
 type FormFieldProps = {
   form: UseFormReturn<FormSchema>;

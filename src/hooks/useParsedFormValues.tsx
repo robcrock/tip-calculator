@@ -1,4 +1,4 @@
-import { FormSchema } from "@/app/page";
+import { FormSchema } from "@/types/form-schema";
 import { useForm } from "react-hook-form";
 
 export const useParsedFormValues = (

@@ -1,10 +1,10 @@
 // components/BillForm.tsx
 import { UseFormReturn } from "react-hook-form";
 import { ButtonGroup } from "@/components/button-group";
-import { FormSchema } from "@/app/page";
 import DollarSign from "@/components/icons/dollar-sign";
 import Person from "@/components/icons/person";
 import { FormField } from "./form-field";
+import { FormSchema } from "@/types/form-schema";
 
 type BillFormProps = {
   form: UseFormReturn<FormSchema>;
