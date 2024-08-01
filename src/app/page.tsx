@@ -29,7 +29,7 @@ export const INITIAL_FORM_VALUES = {
   "number-of-people": 1,
 };
 
-export default function TipCalculator() {
+export default function Home() {
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: INITIAL_FORM_VALUES,
