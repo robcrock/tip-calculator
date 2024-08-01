@@ -26,9 +26,12 @@ import Person from "@/components/icons/person";
 import Logo from "@/components/icons/logo";
 
 const formSchema = z.object({
-  bill: z.string(),
-  "tip-percent": z.string(),
-  "number-of-people": z.string(),
+  bill: z.coerce.number().gte(0, { message: "Can't be negative" }),
+  "tip-percent": z.coerce.number().gte(0),
+  "number-of-people": z.coerce
+    .number()
+    .int()
+    .min(1, { message: "Can't be zero" }),
 });
 
 const formatter = new Intl.NumberFormat("en-US", {
@@ -38,17 +41,13 @@ const formatter = new Intl.NumberFormat("en-US", {
 });
 
 export default function Home() {
-  // const [bill, setBill] = useState(0);
-  // const [tipPercent, setTipPercent] = useState(0);
-  // const [numberOfPeople, setNumberOfPeople] = useState(0);
-
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      bill: "0",
-      "tip-percent": "0.05",
-      "number-of-people": "1",
+      bill: 1,
+      "tip-percent": 0.05,
+      "number-of-people": 1,
     },
   });
 
@@ -60,16 +59,11 @@ export default function Home() {
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("fired");
-    console.log(values);
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    // setBill(parseFloat(values.bill));
-    // setTipPercent(parseFloat(values["tip-percent"]));
-    // setNumberOfPeople(parseFloat(values["number-of-people"]));
+    console.log({ values });
     form.reset({});
-    // setIsSubmitSuccessful(true);
   }
+
+  console.log({ tipPercent });
 
   return (
     <main className="flex h-full min-h-screen flex-col items-center bg-light-grayish-cyan pb-8">
@@ -91,9 +85,12 @@ export default function Home() {
                   name="bill"
                   render={({ field }) => (
                     <FormItem className="space-y-2">
-                      <FormLabel className="text-[16px] font-bold text-dark-grayish-cyan">
-                        Bill
-                      </FormLabel>
+                      <div className="flex justify-between">
+                        <FormLabel className="text-[16px] font-bold text-dark-grayish-cyan">
+                          Bill
+                        </FormLabel>
+                        <FormMessage />
+                      </div>
                       <FormControl className="h-12 text-2xl font-bold">
                         <Input
                           className="pr-2"
@@ -105,7 +102,6 @@ export default function Home() {
                           {...field}
                         />
                       </FormControl>
-                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -117,9 +113,12 @@ export default function Home() {
                   name="number-of-people"
                   render={({ field }) => (
                     <FormItem className="space-y-2">
-                      <FormLabel className="text-[16px] font-bold text-dark-grayish-cyan">
-                        Number of People
-                      </FormLabel>
+                      <div className="flex justify-between">
+                        <FormLabel className="text-[16px] font-bold text-dark-grayish-cyan">
+                          Number of People
+                        </FormLabel>
+                        <FormMessage />
+                      </div>
                       <FormControl className="h-12 text-2xl font-bold">
                         <Input
                           className="pr-2"
@@ -129,7 +128,6 @@ export default function Home() {
                           {...field}
                         />
                       </FormControl>
-                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -150,10 +148,11 @@ export default function Home() {
                           </div>
                         </div>
                         <div className="text-right text-5xl font-bold text-strong-cyan">
-                          {formatter.format(
-                            (parseFloat(bill) * parseFloat(tipPercent)) /
-                              parseFloat(numberOfPeople),
-                          ) || formatter.format(0)}
+                          {numberOfPeople <= 0
+                            ? formatter.format(0)
+                            : formatter.format(
+                                (bill * tipPercent) / numberOfPeople,
+                              ) || formatter.format(0)}
                         </div>
                       </div>
                       {/* total per person */}
@@ -165,11 +164,11 @@ export default function Home() {
                           </div>
                         </div>
                         <div className="text-right text-5xl font-bold text-strong-cyan">
-                          {formatter.format(
-                            (parseFloat(bill) * parseFloat(tipPercent) +
-                              parseFloat(bill)) /
-                              parseFloat(numberOfPeople),
-                          )}
+                          {numberOfPeople <= 0
+                            ? formatter.format(0)
+                            : formatter.format(
+                                (bill * tipPercent + bill) / numberOfPeople,
+                              )}
                         </div>
                       </div>
                     </div>

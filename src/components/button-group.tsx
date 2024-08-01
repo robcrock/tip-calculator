@@ -5,22 +5,21 @@ import { useFormContext } from "react-hook-form";
 import { cn } from "@/lib/utils";
 
 const buttonProps = [
-  { value: "0.05", label: "5%" },
-  { value: "0.1", label: "10%" },
-  { value: "0.15", label: "15%" },
-  { value: "0.25", label: "25%" },
-  { value: "0.5", label: "50%" },
+  { value: 0.05, label: "5%" },
+  { value: 0.1, label: "10%" },
+  { value: 0.15, label: "15%" },
+  { value: 0.25, label: "25%" },
+  { value: 0.5, label: "50%" },
 ];
 
 export const ButtonGroup = () => {
   const { register, setValue, getValues } = useFormContext(); // Using setValue from useFormContext
   const tipPercentRef = useRef<HTMLInputElement>(null);
   const [inputValue, setInputValue] = useState("");
-  console.log("getValues", getValues());
 
   // Handler for button clicks
   const handleButtonClick = (value: number) => {
-    console.log("clicked");
+    console.log("value", value);
     setValue("tip-percent", value, { shouldValidate: true }); // Update the form state with the button's value
     setInputValue(""); // Reset local input state so it doesn't show old values
   };
@@ -31,10 +30,9 @@ export const ButtonGroup = () => {
 
   // Handler for changes in the input
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseFloat(event.target.value);
-    if (!isNaN(value)) {
-      console.log("changed");
-      setValue("tip-percent", value, { shouldValidate: true }); // Only update with valid numbers
+    const value = event.target.value;
+    if (!isNaN(parseFloat(value))) {
+      setValue("tip-percent", parseFloat(value), { shouldValidate: true }); // Only update with valid numbers
     }
     setInputValue(event.target.value);
   };
@@ -47,7 +45,7 @@ export const ButtonGroup = () => {
           <Button
             className={cn(
               "h-12 bg-very-dark-cyan text-2xl font-bold",
-              `${value === getValues()["tip-percent"] ? "bg-strong-cyan text-very-dark-cyan hover:bg-strong-cyan hover:text-very-dark-cyan" : "hover:bg-light-grayish-cyan hover:text-very-dark-cyan"}`,
+              `${value === parseFloat(getValues()["tip-percent"]) ? "bg-strong-cyan text-very-dark-cyan hover:bg-strong-cyan hover:text-very-dark-cyan" : "hover:bg-light-grayish-cyan hover:text-very-dark-cyan"}`,
             )}
             {...register("tip-percent")} // Register input for react-hook-form
             key={label}
