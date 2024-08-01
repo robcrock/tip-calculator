@@ -11,6 +11,8 @@ import { Attribution } from "@/components/attribution";
 import { useParsedFormValues } from "@/hooks/useParsedFormValues";
 import { BillForm } from "@/components/bill-form";
 import { ResultsDisplay } from "@/components/result-display";
+import { FormSchema } from "@/types/form-schema";
+import { INITIAL_FORM_VALUES } from "@/constants";
 
 export const formSchema = z.object({
   bill: z.coerce.number().gte(0, { message: "Can't be negative" }),
@@ -20,14 +22,6 @@ export const formSchema = z.object({
     .int()
     .min(1, { message: "Can't be zero" }),
 });
-
-export type FormSchema = z.infer<typeof formSchema>;
-
-export const INITIAL_FORM_VALUES = {
-  bill: 1.0,
-  "tip-percent": 0.05,
-  "number-of-people": 1,
-};
 
 export default function Home() {
   const form = useForm<FormSchema>({
