@@ -25,23 +25,28 @@ export default function Home() {
   const onSubmit = () => form.reset(INITIAL_FORM_VALUES);
 
   return (
-    <main className="flex h-full min-h-screen flex-col items-center bg-light-grayish-cyan pb-8">
-      <div className="mb-[60px] mt-[104px]">
-        <Logo />
+    <main className="flex h-full min-h-screen justify-center bg-light-grayish-cyan">
+      <div>
+        <Card className="relative mt-[304px] h-[481px] w-[920px] rounded-[25px]">
+          <div className="-translate-y-1/2w-full trans form absolute -top-[135px] left-1/2 -translate-x-1/2">
+            <Logo />
+          </div>
+          <CardContent className="h-full w-full p-0">
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="grid h-full w-full grid-cols-2"
+              >
+                <BillForm form={form} />
+                <ResultsDisplay
+                  parsedValues={parsedValues}
+                  onReset={onSubmit}
+                />
+              </form>
+            </Form>
+          </CardContent>
+        </Card>
       </div>
-      <Card className="mb-6 h-[481px] w-[920px] rounded-[25px]">
-        <CardContent className="h-full w-full p-0">
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="grid h-full w-full grid-cols-2"
-            >
-              <BillForm form={form} />
-              <ResultsDisplay parsedValues={parsedValues} onReset={onSubmit} />
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
       <Attribution
         name="Robert Crocker"
         link="https://www.frontendmentor.io/profile/robcrock"
