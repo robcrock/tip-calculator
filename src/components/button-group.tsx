@@ -19,7 +19,6 @@ export const ButtonGroup = () => {
 
   // Handler for button clicks
   const handleButtonClick = (value: number) => {
-    console.log("value", value);
     setValue("tip-percent", value, { shouldValidate: true }); // Update the form state with the button's value
     setInputValue(""); // Reset local input state so it doesn't show old values
   };

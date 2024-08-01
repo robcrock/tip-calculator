@@ -32,6 +32,7 @@ const config = {
         bold: "700",
       },
       colors: {
+        error: "hsl(13, 70%, 60%)",
         "strong-cyan": "hsl(172, 67%, 45%)",
         "very-dark-cyan": "hsl(183, 100%, 15%)",
         "dark-grayish-cyan": "hsl(186, 14%, 43%)",

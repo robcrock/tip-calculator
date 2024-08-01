@@ -27,7 +27,7 @@ import Logo from "@/components/icons/logo";
 
 const formSchema = z.object({
   bill: z.coerce.number().gte(0, { message: "Can't be negative" }),
-  "tip-percent": z.coerce.number().gte(0),
+  "tip-percent": z.coerce.number().gte(0, { message: "Can't be negative" }),
   "number-of-people": z.coerce
     .number()
     .int()
@@ -45,25 +45,30 @@ export default function Home() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      bill: 1,
+      bill: 1.0,
       "tip-percent": 0.05,
       "number-of-people": 1,
     },
   });
 
-  const {
+  let {
     bill,
     "tip-percent": tipPercent,
     "number-of-people": numberOfPeople,
   } = form.watch();
 
+  bill = typeof bill !== "number" ? parseFloat(bill) : bill;
+  tipPercent =
+    typeof tipPercent !== "number" ? parseFloat(tipPercent) : tipPercent;
+  numberOfPeople =
+    typeof numberOfPeople !== "number"
+      ? parseFloat(numberOfPeople)
+      : numberOfPeople;
+
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log({ values });
     form.reset({});
   }
-
-  console.log({ tipPercent });
 
   return (
     <main className="flex h-full min-h-screen flex-col items-center bg-light-grayish-cyan pb-8">
@@ -152,7 +157,7 @@ export default function Home() {
                             ? formatter.format(0)
                             : formatter.format(
                                 (bill * tipPercent) / numberOfPeople,
-                              ) || formatter.format(0)}
+                              )}
                         </div>
                       </div>
                       {/* total per person */}

@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
+import { useFormField } from "./form";
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -9,6 +10,8 @@ export interface InputProps
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, startIcon, ...props }, ref) => {
+    const { error, formItemId, formDescriptionId, formMessageId } =
+      useFormField();
     const StartIcon = startIcon;
 
     return (
@@ -16,7 +19,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         <input
           type={type}
           className={cn(
-            "peer flex h-10 w-full rounded-md bg-very-light-grayish-cyan px-4 py-2 text-right text-sm text-very-dark-cyan ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-strong-cyan focus-visible:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50",
+            "peer flex h-10 w-full rounded-md bg-very-light-grayish-cyan px-4 py-2 text-right text-sm text-very-dark-cyan ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50",
+            error
+              ? "ring-error focus-visible:ring-error ring-2"
+              : "focus-visible:ring-strong-cyan",
             startIcon ? "pl-8" : "",
             className,
           )}
